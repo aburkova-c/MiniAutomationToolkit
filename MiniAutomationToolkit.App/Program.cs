@@ -1,6 +1,8 @@
 ﻿using MiniAutomationToolkit.Core.Models;
 using MiniAutomationToolkit.Core.Services;
-using MiniAutomationToolkit.Core.Helpers; 
+using MiniAutomationToolkit.Core.Helpers;
+
+Console.WriteLine("=== Task 2 ===");
 
 var testCases = new[]
 {
@@ -35,7 +37,10 @@ catch (ArgumentOutOfRangeException exception)
     Console.WriteLine($"Error: {exception.Message}");
 }
 
-var fileNames = new List<string>
+Console.WriteLine();
+Console.WriteLine("=== Task 3 ===");
+
+var fileNames = new List<string> // тестовый набор: имена с разным регистром расширения 
 {
     "error_2024.log",
     "notes.txt",
@@ -59,8 +64,8 @@ var fileNames = new List<string>
     "system.log"
 };
 
-var firstScreenshot = FileSearcher.FindFirstScreenshot(fileNames);
-Console.WriteLine($"First screenshot: {firstScreenshot}");
+var firstScreenshot = FileSearcher.FindFirstScreenshot(fileNames); 
+Console.WriteLine($"First screenshot: {firstScreenshot}"); // вывод результата первый скриншот
 
 var fileNamesWithoutScreenshots = new List<string>
 {
@@ -71,7 +76,7 @@ var fileNamesWithoutScreenshots = new List<string>
     "notes.txt"
 };
 
-try
+try // демонстрирует обработку FileNotFoundException
 {
     var screenshot = FileSearcher.FindFirstScreenshot(fileNamesWithoutScreenshots);
     Console.WriteLine($"First screenshot: {screenshot}");
@@ -79,4 +84,47 @@ try
 catch (FileNotFoundException exception)
 {
     Console.WriteLine($"Error: {exception.Message}");
+}
+
+Console.WriteLine();
+Console.WriteLine("=== Task 4 ===");
+
+var user = new UserDto(
+    "Alex Smith",
+    "alex@example.com");
+
+var sameUser = new UserDto(
+    "Alex Smith",
+    "alex@example.com");
+
+// Эти строки не компилируются, потому что свойства неизменяемые:
+// user.Name = "John Smith";
+// user.Email = "john@example.com";
+
+Console.WriteLine($"User created: {user.Name}, {user.Email}"); // Проверка создания пользователя
+Console.WriteLine($"Users are equal: {user == sameUser}");    // Проверить равенство двух RECORD
+
+var invalidUsers = new List<(string Name, string Email)> // ошибочные сценарии
+{
+    ("", "alex@example.com"),
+    ("Alex Smith", ""),
+    ("Alex Smith", "alexexample.com"),
+    ("Alex Smith", "alex @example.com")
+};
+
+foreach (var invalidUser in invalidUsers) // обработка каждого сценария
+{
+    try
+    {
+        var invalidUserDto = new UserDto(
+            invalidUser.Name,
+            invalidUser.Email);
+
+        Console.WriteLine(
+            $"User created: {invalidUserDto.Name}, {invalidUserDto.Email}");
+    }
+    catch (ArgumentException exception)
+    {
+        Console.WriteLine($"Error: {exception.Message}");
+    }
 }
