@@ -1,6 +1,7 @@
 ﻿using MiniAutomationToolkit.Core.Models;
 using MiniAutomationToolkit.Core.Services;
 using MiniAutomationToolkit.Core.Helpers;
+using MiniAutomationToolkit.Core.Pages;
 
 Console.WriteLine("=== Task 2 ===");
 
@@ -128,3 +129,29 @@ foreach (var invalidUser in invalidUsers) // обработка каждого �
         Console.WriteLine($"Error: {exception.Message}");
     }
 }
+
+Console.WriteLine();
+Console.WriteLine("=== Task 5 ===");
+
+var pages = new List<BasePage> // создан список страниц
+{
+    new LoginPage(),
+    new HomePage()
+};
+foreach (var page in pages)
+{
+    page.Load();
+}
+
+// Проверить уникальность URL
+var hasDuplicateUrls = pages
+    .GroupBy(page => page.Url)
+    .Any(group => group.Count() > 1);
+
+if (hasDuplicateUrls)
+{
+    throw new InvalidOperationException(
+        "Duplicate page URLs found.");
+}
+
+Console.WriteLine("All page URLs are unique");
