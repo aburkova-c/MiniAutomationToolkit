@@ -2,6 +2,7 @@
 using MiniAutomationToolkit.Core.Services;
 using MiniAutomationToolkit.Core.Helpers;
 using MiniAutomationToolkit.Core.Pages;
+using MiniAutomationToolkit.Core.Configuration;
 
 Console.WriteLine("=== Task 2 ===");
 
@@ -155,3 +156,37 @@ if (hasDuplicateUrls)
 }
 
 Console.WriteLine("All page URLs are unique");
+
+Console.WriteLine();
+Console.WriteLine("=== Task 6 ===");
+
+// Получить путь к файлу
+var configPath = Path.Combine(
+    AppContext.BaseDirectory,
+    "data",
+    "appsettings.txt");
+    
+var config = new AppConfig(configPath);
+
+// Получить параметры в нужных типах
+var baseUrl = config.GetSetting<string>("baseUrl");
+var timeout = config.GetSetting<int>("timeout");
+var headless = config.GetSetting<bool>("headless");
+var retryCount = config.GetSetting<int>("retryCount");
+
+Console.WriteLine($"Base URL: {baseUrl}");
+Console.WriteLine($"Timeout: {timeout}");
+Console.WriteLine($"Headless: {headless}");
+Console.WriteLine($"Retry count: {retryCount}");
+
+// Обработать отсутствующий ключ
+try
+{
+    var browser = config.GetSetting<string>("browser");
+    Console.WriteLine($"Browser: {browser}");
+}
+catch (KeyNotFoundException exception)
+{
+    Console.WriteLine($"Error: {exception.Message}");
+}
+
