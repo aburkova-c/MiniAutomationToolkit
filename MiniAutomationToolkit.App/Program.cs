@@ -4,6 +4,8 @@ using MiniAutomationToolkit.Core.Helpers;
 using MiniAutomationToolkit.Core.Pages;
 using MiniAutomationToolkit.Core.Configuration;
 using MiniAutomationToolkit.Core.Extensions;
+using System.Diagnostics;
+using MiniAutomationToolkit.Core.Simulations;
 
 Console.WriteLine("=== Task 2 ===");
 
@@ -210,3 +212,15 @@ foreach (var url in urls)
     Console.WriteLine(
         $"Input: {url ?? "<null>"}, Has HTTP scheme: {result}");
 }
+
+Console.WriteLine();
+Console.WriteLine("=== Task 8 ===");
+
+var simulator = new LongOperationSimulator();
+var stopwatch = Stopwatch.StartNew();
+var operationResult = await simulator.LongOperationAsync();
+
+stopwatch.Stop();
+
+Console.WriteLine($"Result: {operationResult}");
+Console.WriteLine($"Duration: {stopwatch.Elapsed.TotalSeconds:F2} seconds");
