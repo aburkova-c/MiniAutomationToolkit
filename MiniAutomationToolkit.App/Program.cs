@@ -6,6 +6,7 @@ using MiniAutomationToolkit.Core.Configuration;
 using MiniAutomationToolkit.Core.Extensions;
 using System.Diagnostics;
 using MiniAutomationToolkit.Core.Simulations;
+using MiniAutomationToolkit.Core.Services;
 
 Console.WriteLine("=== Task 2 ===");
 
@@ -224,3 +225,49 @@ stopwatch.Stop();
 
 Console.WriteLine($"Result: {operationResult}");
 Console.WriteLine($"Duration: {stopwatch.Elapsed.TotalSeconds:F2} seconds");
+
+Console.WriteLine();
+Console.WriteLine("=== Task 9 ===");
+
+var errorLogger = new ErrorLogger();
+
+var dataDirectory = Path.Combine(
+    AppContext.BaseDirectory,
+    "data");
+
+var inputFilePath = Path.Combine(
+    dataDirectory,
+    "input.txt");
+
+var missingFilePath = Path.Combine(
+    dataDirectory,
+    "missing.txt");
+
+var logFilePath = Path.Combine(
+    dataDirectory,
+    "errors.log");
+
+// Сценарий с существующим файлом
+var fileContent = errorLogger.TryReadFile(
+    inputFilePath,
+    logFilePath);
+
+if (fileContent is not null)
+{
+    Console.WriteLine("Existing file content:");
+    Console.WriteLine(fileContent);
+}
+
+// Сценарий с отсутствующим файлом
+var missingFileContent = errorLogger.TryReadFile(
+    missingFilePath,
+    logFilePath);
+
+if (missingFileContent is null)
+{
+    Console.WriteLine("Missing file could not be read.");
+}
+// Вывести лог
+Console.WriteLine("Error log:");
+var logContent = File.ReadAllText(logFilePath);
+Console.WriteLine(logContent);

@@ -1,0 +1,2 @@
+MiniAutomationToolkit input file. This file is used for Task 9.
+File reading works correctly.
