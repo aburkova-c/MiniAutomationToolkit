@@ -3,6 +3,7 @@ using MiniAutomationToolkit.Core.Services;
 using MiniAutomationToolkit.Core.Helpers;
 using MiniAutomationToolkit.Core.Pages;
 using MiniAutomationToolkit.Core.Configuration;
+using MiniAutomationToolkit.Core.Extensions;
 
 Console.WriteLine("=== Task 2 ===");
 
@@ -190,3 +191,22 @@ catch (KeyNotFoundException exception)
     Console.WriteLine($"Error: {exception.Message}");
 }
 
+Console.WriteLine();
+Console.WriteLine("=== Task 7 ===");
+
+string?[] urls =
+{
+    "https://google.com",
+    "http://example.org",
+    "ftp://files.example.com",
+    null,
+    "HTTPS://SITE.EXAMPLE.COM"
+};
+
+foreach (var url in urls)
+{
+    var result = url.HasHttpScheme();
+
+    Console.WriteLine(
+        $"Input: {url ?? "<null>"}, Has HTTP scheme: {result}");
+}
