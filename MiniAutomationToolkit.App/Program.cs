@@ -7,6 +7,7 @@ using MiniAutomationToolkit.Core.Extensions;
 using System.Diagnostics;
 using MiniAutomationToolkit.Core.Simulations;
 using MiniAutomationToolkit.Core.Services;
+using MiniAutomationToolkit.Core.Validation;
 
 Console.WriteLine("=== Task 2 ===");
 
@@ -271,3 +272,21 @@ if (missingFileContent is null)
 Console.WriteLine("Error log:");
 var logContent = File.ReadAllText(logFilePath);
 Console.WriteLine(logContent);
+
+Console.WriteLine();
+Console.WriteLine("=== Task 10 ===");
+
+var numbersToValidate = new[] { 5, -5, 0 };
+
+foreach (var number in numbersToValidate)
+{
+    try
+    {
+        Guard.EnsurePositive(number);
+        Console.WriteLine($"Value {number}: validation passed.");
+    }
+    catch (ValidationException exception)
+    {
+        Console.WriteLine(exception.Message);
+    }
+}
