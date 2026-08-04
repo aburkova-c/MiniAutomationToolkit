@@ -8,6 +8,7 @@ using System.Diagnostics;
 using MiniAutomationToolkit.Core.Simulations;
 using MiniAutomationToolkit.Core.Services;
 using MiniAutomationToolkit.Core.Validation;
+using MiniAutomationToolkit.Core.Repositories;
 
 Console.WriteLine("=== Task 2 ===");
 
@@ -290,3 +291,59 @@ foreach (var number in numbersToValidate)
         Console.WriteLine(exception.Message);
     }
 }
+
+Console.WriteLine();
+Console.WriteLine("=== Task 11 ===");
+
+var productsFilePath = Path.Combine(
+    AppContext.BaseDirectory,
+    "data",
+    "products.csv");
+
+var products = ProductRepository.LoadFromCsv(
+    productsFilePath);
+
+Console.WriteLine($"Loaded products: {products.Count}");
+// Бюджет 10
+var foodUnderTen =
+    ProductRepository.GetAffordableProducts(
+        products,
+        ProductCategory.Food,
+        10m);
+
+Console.WriteLine("Food under 10:");
+
+if (foodUnderTen.Any())
+{
+    foreach (var productName in foodUnderTen)
+    {
+        Console.WriteLine(productName);
+    }
+}
+else
+{
+    Console.WriteLine("No products found");
+}
+
+// бюджет 1
+
+var foodUnderOne =
+    ProductRepository.GetAffordableProducts(
+        products,
+        ProductCategory.Food,
+        1m);
+
+Console.WriteLine("Food under 1:");
+
+if (foodUnderOne.Any())
+{
+    foreach (var productName in foodUnderOne)
+    {
+        Console.WriteLine(productName);
+    }
+}
+else
+{
+    Console.WriteLine("No products found");
+}
+
